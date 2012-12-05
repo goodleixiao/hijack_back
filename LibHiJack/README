@@ -1,0 +1,51 @@
+LibHiJack is a simple library that contains the raw communication interface.
+It makes it easy to interact at the lowest level with a HiJack device by
+sending and receiving bytes.
+
+How to use this library
+=======================
+
+Adding the library to your project
+----------------------------------
+
+LibHiJack can be compiled as a static library. There are several resources
+online that show you how to add a static library to your project. The
+simplest way is to open the project, and make it. Then, add the libHiJack.a
+and HiJackMgr.h to your iPhone application.
+
+Short usage example
+-------------------
+
+In your application where you plan to send and receive bytes, include the
+header file
+
+#import "HiJackMgr.h"
+
+Make your main class a delegate for the HiJackDelegate, and add a HiJackMgr
+pointer, e.g.
+
+@interface aurioTouchAppDelegate : NSObject <UIApplicationDelegate, EAGLViewDelegate, HiJackDelegate> {
+  ...
+  HiJackMgr*					hiJackMgr;
+  ...
+}
+
+In your 'applicationDidFinishLoading' initialize the HiJack object and
+register for its Delegate
+
+	hiJackMgr = [[HiJackMgr alloc] init];
+	[hiJackMgr setDelegate:self];
+
+All you are left to do is to write the receive function
+
+-(int) receive:(UInt8)data
+{
+  ...
+}
+
+And use the HiJackMgr pointer to send bytes
+
+	[hiJackMgr send:[slider value]];
+
+Note that the return value of send is 0 if the send is successful, and 1 if
+it failed (i.e. HiJack is busy sending something).
